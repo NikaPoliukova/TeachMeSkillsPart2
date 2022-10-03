@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name = "MainServlet", urlPatterns = "/test")
-public class MainServlet extends HttpServlet {
+@WebServlet(name = "CounterServlet", urlPatterns = "/information")
+public class CounterServlet extends HttpServlet {
 
-    private int count = 0;
+    private int count=0;
+
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        String initial = config.getInitParameter("initial");
+        try {
+            count = Integer.parseInt(initial);
+        } catch (NumberFormatException e) {
+            count = 0;
+        }
+    }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
